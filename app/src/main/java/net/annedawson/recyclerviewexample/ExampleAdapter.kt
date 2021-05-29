@@ -18,6 +18,9 @@ import kotlinx.android.synthetic.main.example_item.view.*
 // https://developer.android.com/topic/libraries/view-binding/migration
 // kotlin android extensions is deprecated - use Jetpack view binding instead
 
+
+// the adapter gets passed the data to be displayed in the RecyclerView card.
+
 class ExampleAdapter(private val exampleList: List<ExampleItem>) : RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>(){
     // must implement these 3 member methods:  press Ctrl I at this location
 
@@ -40,6 +43,8 @@ class ExampleAdapter(private val exampleList: List<ExampleItem>) : RecyclerView.
         holder.imageView.setImageResource(currentItem.imageResource)
         holder.textView1.text = currentItem.text1   // Ctrl D to duplicate a line
         holder.textView2.text = currentItem.text2   // kotlin's property syntax
+        //the above uses the three cached view references we created below
+
         // the above is equivalent to
         // holder.itemView.text_view_1.text = currentItem.text2
         // it will work but it uses findViewById which we want to avoid as this method
@@ -47,15 +52,16 @@ class ExampleAdapter(private val exampleList: List<ExampleItem>) : RecyclerView.
 
            }
 
-    override fun getItemCount() = exampleList.size
+    override fun getItemCount() = exampleList.size //Kotlin's single expression syntax for functions
 
     // nested class
+    // itemView is a single row of data
     class ExampleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // a ViewHolder represents a single row in our list
-        // references to each view in each row.
+        // a ViewHolder represents a single row in our list - the card view
+        // references to each view in each row image view and two text views.
         // cached references in ViewHolder and ViewHolder is recycled
         // three properties:
-        val imageView: ImageView = itemView.image_view // image_view is a synthetic property
+        val imageView: ImageView = itemView.image_view // image_view is a synthetic property  // calls findViewById internally
         val textView1: TextView = itemView.text_view_1 // text_view_1 is a synthetic property
         val textView2: TextView = itemView.text_view_2 // text_view_2 is a synthetic property
         // the above is equivalent to itemView.findViewById(R.id.text_view_2)
